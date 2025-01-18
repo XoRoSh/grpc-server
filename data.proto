@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package data;
+
+option go_package = "data/";
+
+import "google/protobuf/field_mask.proto";
+
+service DataService {
+  rpc GetData (DataRequest) returns (DataResponse);
+}
+
+message DataRequest {
+  string id = 1;
+  google.protobuf.FieldMask field_mask = 2; 
+
+}
+
+message DataResponse {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+}
+
