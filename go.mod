@@ -1,4 +1,4 @@
-module grpc
+module github.com/XoRoSh/grpc-server
 
 go 1.23.4
 
