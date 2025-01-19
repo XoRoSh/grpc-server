@@ -11,7 +11,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
-	pb "grpc/data"
+	pb "github.com/XoRoSh/grpc-server/data"
 )
 
 // Database model
