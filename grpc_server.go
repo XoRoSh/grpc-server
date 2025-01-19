@@ -14,14 +14,12 @@ import (
 	pb "github.com/XoRoSh/grpc-server/data"
 )
 
-// Database model
 type Data struct {
 	ID          string `gorm:"primaryKey"`
 	Name        string
 	Description string
 }
 
-// gRPC server
 type server struct {
 	pb.UnimplementedDataServiceServer
 	db *gorm.DB
@@ -42,6 +40,7 @@ func (s *server) GetData(ctx context.Context, req *pb.DataRequest) (*pb.DataResp
 	// Handle FieldMask
 	response := &pb.DataResponse{}
 	for _, path := range req.FieldMask.GetPaths() {
+		// Here dynamically ?
 		switch path {
 		case "id":
 			response.Id = data.ID
@@ -56,17 +55,14 @@ func (s *server) GetData(ctx context.Context, req *pb.DataRequest) (*pb.DataResp
 }
 
 func main() {
-	// Initialize database
 	db, err := gorm.Open(sqlite.Open("data.db"), &gorm.Config{})
 	if err != nil {
 		log.Fatalf("Failed to connect to database: %v", err)
 	}
 	db.AutoMigrate(&Data{}) // Migrate the schema
 
-	// Seed data
 	db.Create(&Data{ID: "1", Name: "Example", Description: "This is a sample data entry"})
 
-	// Start gRPC server
 	listener, err := net.Listen("tcp", ":50051")
 	if err != nil {
 		log.Fatalf("Failed to listen: %v", err)
